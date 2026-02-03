@@ -398,3 +398,214 @@ func BenchmarkIsCapitalized(b *testing.B) {
 		IsCapitalized(input)
 	}
 }
+
+func TestAtoi(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected int
+	}{
+		{
+			name:     "simple positive number",
+			input:    "12345",
+			expected: 12345,
+		},
+		{
+			name:     "number with leading zeros",
+			input:    "0000000012345",
+			expected: 12345,
+		},
+		{
+			name:     "number with space",
+			input:    "012 345",
+			expected: 0,
+		},
+		{
+			name:     "non-numeric string",
+			input:    "Hello World!",
+			expected: 0,
+		},
+		{
+			name:     "positive sign",
+			input:    "+1234",
+			expected: 1234,
+		},
+		{
+			name:     "negative sign",
+			input:    "-1234",
+			expected: -1234,
+		},
+		{
+			name:     "double positive sign",
+			input:    "++1234",
+			expected: 0,
+		},
+		{
+			name:     "double negative sign",
+			input:    "--1234",
+			expected: 0,
+		},
+		{
+			name:     "zero",
+			input:    "0",
+			expected: 0,
+		},
+		{
+			name:     "single digit",
+			input:    "7",
+			expected: 7,
+		},
+		{
+			name:     "negative single digit",
+			input:    "-7",
+			expected: -7,
+		},
+		{
+			name:     "positive single digit with sign",
+			input:    "+7",
+			expected: 7,
+		},
+		{
+			name:     "empty string",
+			input:    "",
+			expected: 0,
+		},
+		{
+			name:     "only sign",
+			input:    "+",
+			expected: 0,
+		},
+		{
+			name:     "only negative sign",
+			input:    "-",
+			expected: 0,
+		},
+		{
+			name:     "letters after numbers",
+			input:    "123abc",
+			expected: 0,
+		},
+		{
+			name:     "letters before numbers",
+			input:    "abc123",
+			expected: 0,
+		},
+		{
+			name:     "sign in middle",
+			input:    "12+34",
+			expected: 0,
+		},
+		{
+			name:     "multiple zeros",
+			input:    "0000",
+			expected: 0,
+		},
+		{
+			name:     "large number",
+			input:    "987654321",
+			expected: 987654321,
+		},
+		{
+			name:     "negative large number",
+			input:    "-987654321",
+			expected: -987654321,
+		},
+		{
+			name:     "positive with leading zeros",
+			input:    "+00042",
+			expected: 42,
+		},
+		{
+			name:     "negative with leading zeros",
+			input:    "-00042",
+			expected: -42,
+		},
+		{
+			name:     "mixed signs",
+			input:    "+-123",
+			expected: 0,
+		},
+		{
+			name:     "mixed signs reverse",
+			input:    "-+123",
+			expected: 0,
+		},
+		{
+			name:     "special characters",
+			input:    "!@#$%",
+			expected: 0,
+		},
+		{
+			name:     "tab character",
+			input:    "123\t456",
+			expected: 0,
+		},
+		{
+			name:     "newline character",
+			input:    "123\n456",
+			expected: 0,
+		},
+		{
+			name:     "decimal number",
+			input:    "123.456",
+			expected: 0,
+		},
+		{
+			name:     "sign at end",
+			input:    "123+",
+			expected: 0,
+		},
+		{
+			name:     "sign at end negative",
+			input:    "123-",
+			expected: 0,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := Atoi(tt.input)
+			if result != tt.expected {
+				t.Errorf("Atoi(%q) = %d, want %d", tt.input, result, tt.expected)
+			}
+		})
+	}
+}
+
+// Additional edge case tests
+func TestAtoiEdgeCases(t *testing.T) {
+	// Test that the function handles all provided examples correctly
+	examples := map[string]int{
+		"12345":         12345,
+		"0000000012345": 12345,
+		"012 345":       0,
+		"Hello World!":  0,
+		"+1234":         1234,
+		"-1234":         -1234,
+		"++1234":        0,
+		"--1234":        0,
+	}
+
+	for input, expected := range examples {
+		result := Atoi(input)
+		if result != expected {
+			t.Errorf("Atoi(%q) = %d, want %d", input, result, expected)
+		}
+	}
+}
+
+// Benchmark test
+func BenchmarkAtoi(b *testing.B) {
+	testCases := []string{
+		"12345",
+		"-12345",
+		"+12345",
+		"0000000012345",
+	}
+
+	for i := 0; i < b.N; i++ {
+		for _, tc := range testCases {
+			Atoi(tc)
+		}
+	}
+}

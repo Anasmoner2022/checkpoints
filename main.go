@@ -1,7 +1,18 @@
 package main
 
-import "piscine/piscine"
+import (
+	"fmt"
+
+	"piscine/piscine"
+)
 
 func main() {
-	piscine.PrintMemory([10]byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'})
+	fmt.Println(piscine.Atoi("12345"))
+	fmt.Println(piscine.Atoi("0000000012345"))
+	fmt.Println(piscine.Atoi("012 345"))
+	fmt.Println(piscine.Atoi("Hello World!"))
+	fmt.Println(piscine.Atoi("+1234"))
+	fmt.Println(piscine.Atoi("-1234"))
+	fmt.Println(piscine.Atoi("++1234"))
+	fmt.Println(piscine.Atoi("--1234"))
 }
